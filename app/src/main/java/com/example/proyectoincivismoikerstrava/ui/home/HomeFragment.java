@@ -12,9 +12,14 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.proyectoincivismoikerstrava.databinding.FragmentHomeBinding;
+import com.example.proyectoincivismoikerstrava.ui.Incidencia;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class HomeFragment extends Fragment {
     private FragmentHomeBinding binding;
+    private FirebaseUser authUser;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         HomeViewModel homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
@@ -22,14 +27,19 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        HomeViewModel sharedViewModel = new ViewModelProvider(getActivity()).get(HomeViewModel.class);
+        HomeViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(HomeViewModel.class);
 
         HomeViewModel.getCurrentAddress().observe(getViewLifecycleOwner(), address -> {
-            binding.localitzacio.setText(String.format(
+            binding.txtDireccio.setText(String.format(
                     "Direcció: %1$s \n Hora: %2$tr",
-                    address, System.currentTimeMillis()));
+                    address, System.currentTimeMillis())
+            );
         });
-        sharedViewModel.getButtonText().observe(getViewLifecycleOwner(), s -> binding.buttonLocation.setText(s));
+        sharedViewModel.getCurrentLatLng().observe(getViewLifecycleOwner(), latlng -> {
+            binding.txtLatitud.setText(String.valueOf(latlng.latitude));
+            binding.txtLongitud.setText(String.valueOf(latlng.longitude));
+        });
+
         sharedViewModel.getProgressBar().observe(getViewLifecycleOwner(), visible -> {
             if (visible)
                 binding.loading.setVisibility(ProgressBar.VISIBLE);
@@ -37,10 +47,30 @@ public class HomeFragment extends Fragment {
                 binding.loading.setVisibility(ProgressBar.INVISIBLE);
         });
 
-        binding.buttonLocation.setOnClickListener(view -> {
-            Log.d("DEBUG", "Clicked Get Location");
-            sharedViewModel.switchTrackingLocation();
+        sharedViewModel.switchTrackingLocation();
+
+        sharedViewModel.getUser().observe(getViewLifecycleOwner(), user -> {
+            authUser = user;
         });
+
+
+        binding.buttonNotificar.setOnClickListener(button -> {
+            Incidencia incidencia = new Incidencia();
+            incidencia.setDireccio(binding.txtDireccio.getText().toString());
+            incidencia.setLatitud(binding.txtLatitud.getText().toString());
+            incidencia.setLongitud(binding.txtLongitud.getText().toString());
+            incidencia.setProblema(binding.txtDescripcio.getText().toString());
+
+            DatabaseReference base = FirebaseDatabase.getInstance("https://proyectoincivismoikerstrava-default-rtdb.europe-west1.firebasedatabase.app/").getReference();
+
+            DatabaseReference users = base.child("users");
+            DatabaseReference uid = users.child(authUser.getUid());
+            DatabaseReference incidencies = uid.child("incidencies");
+
+            DatabaseReference reference = incidencies.push();
+            reference.setValue(incidencia);
+        });
+
 
         return root;
     }

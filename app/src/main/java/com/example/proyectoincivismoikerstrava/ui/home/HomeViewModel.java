@@ -19,6 +19,7 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.io.IOException;
@@ -37,7 +38,12 @@ public class HomeViewModel extends AndroidViewModel {
 
     private boolean mTrackingLocation;
     FusedLocationProviderClient mFusedLocationClient;
-    private MutableLiveData<FirebaseUser> user = new MutableLiveData<>();;
+    private MutableLiveData<FirebaseUser> user = new MutableLiveData<>();
+    private final MutableLiveData<LatLng> currentLatLng = new MutableLiveData<>();
+    public MutableLiveData<LatLng> getCurrentLatLng() {
+        return currentLatLng;
+    }
+
 
 
     public HomeViewModel(@NonNull Application application) {
@@ -133,6 +139,9 @@ public class HomeViewModel extends AndroidViewModel {
             try {
                 addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(),
                         1);
+
+                LatLng latlng = new LatLng(location.getLatitude(), location.getLongitude());
+                currentLatLng.postValue(latlng);
 
 
                 if (addresses == null || addresses.size() == 0) {
