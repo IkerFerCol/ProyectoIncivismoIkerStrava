@@ -19,6 +19,7 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -36,6 +37,8 @@ public class HomeViewModel extends AndroidViewModel {
 
     private boolean mTrackingLocation;
     FusedLocationProviderClient mFusedLocationClient;
+    private MutableLiveData<FirebaseUser> user = new MutableLiveData<>();;
+
 
     public HomeViewModel(@NonNull Application application) {
         super(application);
@@ -162,4 +165,13 @@ public class HomeViewModel extends AndroidViewModel {
             }
         });
     }
+
+    public LiveData<FirebaseUser> getUser() {
+        return user;
+    }
+
+    public void setUser(FirebaseUser passedUser) {
+        user.postValue(passedUser);
+    }
+
 }

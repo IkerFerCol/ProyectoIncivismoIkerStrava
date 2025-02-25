@@ -1,5 +1,6 @@
 package com.example.proyectoincivismoikerstrava;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,14 +19,22 @@ import androidx.navigation.ui.NavigationUI;
 import android.Manifest;
 import com.example.proyectoincivismoikerstrava.databinding.ActivityMainBinding;
 import com.example.proyectoincivismoikerstrava.ui.home.HomeViewModel;
+import com.firebase.ui.auth.AuthUI;
+import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     private ActivityResultLauncher<String[]> locationPermissionRequest;
     private HomeViewModel sharedViewModel;
+    private ActivityResultLauncher<Intent> signInLauncher;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +71,39 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "No concedeixen permisos", Toast.LENGTH_SHORT).show();
             }
         });
+
+        signInLauncher = registerForActivityResult(
+                new FirebaseAuthUIActivityResultContract(),
+                (result) -> {
+                    if (result.getResultCode() == RESULT_OK) {
+                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                        sharedViewModel.setUser(user);
+                    }
+                });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        Log.e("XXXX", String.valueOf(auth.getCurrentUser()));
+        if (auth.getCurrentUser() == null) {
+            Intent signInIntent =
+                    AuthUI.getInstance()
+                            .createSignInIntentBuilder()
+                            .setIsSmartLockEnabled(false)
+                            .setAvailableProviders(
+                                    Arrays.asList(
+                                            new AuthUI.IdpConfig.EmailBuilder().build(),
+                                            new AuthUI.IdpConfig.GoogleBuilder().build()
+                                    )
+                            )
+                            .build();
+            signInLauncher.launch(signInIntent);
+        } else {
+            sharedViewModel.setUser(auth.getCurrentUser());
+        }
     }
 
     void checkPermission() {
