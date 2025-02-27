@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "261528748270",
+    "project_id": "proyectoincivismoikerstrava",
+    "storage_bucket": "proyectoincivismoikerstrava.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:261528748270:android:75be3ae67f35105da2b3ff",
+        "android_client_info": {
+          "package_name": "com.example.proyectoincivismoikerstrava"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "261528748270-av713kqda08a8k7q3an1r8sclhfmm4pq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAAuWU_HyYDKEJZyowDJvlXux77kW31iNM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "261528748270-av713kqda08a8k7q3an1r8sclhfmm4pq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

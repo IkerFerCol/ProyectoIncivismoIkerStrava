@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -14,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.proyectoincivismoikerstrava.databinding.FragmentDashboardBinding;
 import com.example.proyectoincivismoikerstrava.databinding.RvIncidenciesBinding;
-import com.example.proyectoincivismoikerstrava.ui.Incidencia;
+import com.example.proyectoincivismoikerstrava.ui.Ruta;
 import com.example.proyectoincivismoikerstrava.ui.home.HomeViewModel;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -46,8 +45,8 @@ public class DashboardFragment extends Fragment {
                 DatabaseReference uid = users.child(authUser.getUid());
                 DatabaseReference incidencies = uid.child("incidencies");
 
-                FirebaseRecyclerOptions<Incidencia> options = new FirebaseRecyclerOptions.Builder<Incidencia>()
-                        .setQuery(incidencies, Incidencia.class)
+                FirebaseRecyclerOptions<Ruta> options = new FirebaseRecyclerOptions.Builder<Ruta>()
+                        .setQuery(incidencies, Ruta.class)
                         .setLifecycleOwner(this)
                         .build();
 
@@ -71,16 +70,16 @@ public class DashboardFragment extends Fragment {
         binding = null;
     }
 
-    class IncidenciaAdapter extends FirebaseRecyclerAdapter<Incidencia, IncidenciaAdapter.IncidenciaViewholder> {
-        public IncidenciaAdapter(@NonNull FirebaseRecyclerOptions<Incidencia> options) {
+    class IncidenciaAdapter extends FirebaseRecyclerAdapter<Ruta, IncidenciaAdapter.IncidenciaViewholder> {
+        public IncidenciaAdapter(@NonNull FirebaseRecyclerOptions<Ruta> options) {
             super(options);
         }
 
         @Override
         protected void onBindViewHolder(
-        @NonNull IncidenciaViewholder holder, int position, @NonNull Incidencia model
+        @NonNull IncidenciaViewholder holder, int position, @NonNull Ruta model
             ) {
-            holder.binding.txtDescripcio.setText(model.getProblema());
+            holder.binding.txtDescripcio.setText(model.getNombre());
             holder.binding.txtAdreca.setText(model.getDireccio());
         }
 

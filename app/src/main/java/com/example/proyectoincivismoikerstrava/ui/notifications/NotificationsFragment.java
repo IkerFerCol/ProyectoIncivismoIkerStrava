@@ -1,6 +1,5 @@
 package com.example.proyectoincivismoikerstrava.ui.notifications;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -15,7 +14,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.proyectoincivismoikerstrava.R;
 import com.example.proyectoincivismoikerstrava.databinding.FragmentNotificationsBinding;
-import com.example.proyectoincivismoikerstrava.ui.Incidencia;
+import com.example.proyectoincivismoikerstrava.ui.Ruta;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -32,13 +31,11 @@ import org.osmdroid.views.overlay.compass.CompassOverlay;
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
-import java.util.Objects;
-
 public class NotificationsFragment extends Fragment {
 
     private FragmentNotificationsBinding binding;
     private FirebaseAuth auth;
-    private DatabaseReference incidencias;
+    private DatabaseReference rutas;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -77,29 +74,29 @@ public class NotificationsFragment extends Fragment {
         DatabaseReference base = FirebaseDatabase.getInstance("https://proyectoincivismoikerstrava-default-rtdb.europe-west1.firebasedatabase.app/").getReference();
         DatabaseReference users = base.child("users");
         DatabaseReference uid = users.child(auth.getUid());
-        incidencias = uid.child("incidencies");
+        rutas = uid.child("incidencies");
 
-        Log.d("III", incidencias.toString());
+        Log.d("III", rutas.toString());
 
-        incidencias.addChildEventListener(new ChildEventListener() {
+        rutas.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, String previousChildName) {
                 if (binding == null || binding.map == null) {
                     Log.e("FirebaseError", "El fragmento ya no está visible.");
                     return;
                 }
-                Incidencia incidencia = snapshot.getValue(Incidencia.class);
+                Ruta ruta = snapshot.getValue(Ruta.class);
                 Double latitud = snapshot.child("latitud").getValue(Double.class);
                 Double longitud = snapshot.child("longitud").getValue(Double.class);
                 Log.d("OWOWO", latitud + " " + longitud);
 
-                if (incidencia != null) {
+                if (ruta != null) {
                     GeoPoint location = new GeoPoint(latitud, longitud);
 
                     Marker marker = new Marker(binding.map);
                     marker.setPosition(location);
-                    marker.setTitle(incidencia.getProblema());
-                    marker.setSnippet(incidencia.getDireccio());
+                    marker.setTitle(ruta.getNombre());
+                    marker.setSnippet(ruta.getDireccio());
 
                     binding.map.getOverlays().add(marker);
                 }

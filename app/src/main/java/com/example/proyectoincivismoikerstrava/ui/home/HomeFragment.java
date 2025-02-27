@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -23,7 +22,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.bumptech.glide.Glide;
 import com.example.proyectoincivismoikerstrava.R;
 import com.example.proyectoincivismoikerstrava.databinding.FragmentHomeBinding;
-import com.example.proyectoincivismoikerstrava.ui.Incidencia;
+import com.example.proyectoincivismoikerstrava.ui.Ruta;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -75,11 +74,11 @@ public class HomeFragment extends Fragment {
 
 
         binding.buttonNotificar.setOnClickListener(button -> {
-            Incidencia incidencia = new Incidencia();
+            Ruta incidencia = new Ruta();
             incidencia.setDireccio(binding.txtDireccio.getText().toString());
             double latitud = Double.parseDouble(binding.txtLatitud.getText().toString().trim());
             double longitud = Double.parseDouble(binding.txtLongitud.getText().toString().trim());
-            incidencia.setProblema(binding.txtDescripcio.getText().toString());
+            incidencia.setNombre(binding.txtDescripcio.getText().toString());
 
             incidencia.setLatitud(latitud);
             incidencia.setLongitud(longitud);

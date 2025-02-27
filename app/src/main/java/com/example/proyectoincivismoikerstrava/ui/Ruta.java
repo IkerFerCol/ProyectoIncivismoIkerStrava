@@ -1,22 +1,22 @@
 package com.example.proyectoincivismoikerstrava.ui;
 
-public class Incidencia {
+public class Ruta {
     Double latitud;
     Double longitud;
     String direccio;
-    String problema;
+    String nombre;
     String url;
 
-    public Incidencia(Double latitud, Double longitud, String direccio,
-                      String problema, String url) {
+    public Ruta(Double latitud, Double longitud, String direccio,
+                String problema, String url) {
         this.latitud = latitud;
         this.longitud = longitud;
         this.direccio = direccio;
-        this.problema = problema;
+        this.nombre = problema;
         this.url = url;
     }
 
-    public Incidencia() {
+    public Ruta() {
     }
 
     public Double getLatitud() {
@@ -43,12 +43,12 @@ public class Incidencia {
         this.direccio = direccio;
     }
 
-    public String getProblema() {
-        return problema;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setProblema(String problema) {
-        this.problema = problema;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public String getUrl() {
