@@ -49,23 +49,23 @@ public class HomeFragment extends Fragment {
 
         HomeViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(HomeViewModel.class);
 
-        HomeViewModel.getCurrentAddress().observe(getViewLifecycleOwner(), address -> {
-            binding.txtDireccio.setText(String.format(
-                    "Direcció: %1$s \n Hora: %2$tr",
-                    address, System.currentTimeMillis())
-            );
-        });
+//        HomeViewModel.getCurrentAddress().observe(getViewLifecycleOwner(), address -> {
+//            binding.txtDireccio.setText(String.format(
+//                    "Direcció: %1$s \n Hora: %2$tr",
+//                    address, System.currentTimeMillis())
+//            );
+//        });
 //        sharedViewModel.getCurrentLatLng().observe(getViewLifecycleOwner(), latlng -> {
 //            binding.txtLatitud.setText(String.valueOf(latlng.latitude));
 //            binding.txtLongitud.setText(String.valueOf(latlng.longitude));
 //        });
 
-        sharedViewModel.getProgressBar().observe(getViewLifecycleOwner(), visible -> {
-            if (visible)
-                binding.loading.setVisibility(ProgressBar.VISIBLE);
-            else
-                binding.loading.setVisibility(ProgressBar.INVISIBLE);
-        });
+//        sharedViewModel.getProgressBar().observe(getViewLifecycleOwner(), visible -> {
+//            if (visible)
+//                binding.loading.setVisibility(ProgressBar.VISIBLE);
+//            else
+//                binding.loading.setVisibility(ProgressBar.INVISIBLE);
+//        });
 
         sharedViewModel.switchTrackingLocation();
 
@@ -99,6 +99,7 @@ public class HomeFragment extends Fragment {
 
         buttonFoto.setOnClickListener(button -> {
             dispatchTakePictureIntent();
+
         });
 
 
@@ -106,6 +107,8 @@ public class HomeFragment extends Fragment {
     }
 
     private File createImageFile() throws IOException {
+        Log.d("FOTO", "CREATEIMAGE");
+
 
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
@@ -121,6 +124,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void dispatchTakePictureIntent() {
+        Log.d("FOTO", "DISPATCH");
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(
                 getContext().getPackageManager()) != null) {
@@ -131,7 +135,6 @@ public class HomeFragment extends Fragment {
             } catch (IOException ex) {
 
             }
-
             if (photoFile != null) {
                 photoURI = FileProvider.getUriForFile(getContext(),
                         "com.example.android.fileprovider",
@@ -144,9 +147,11 @@ public class HomeFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.d("FOTO", "ACTRESULT");
+
         if (requestCode == REQUEST_TAKE_PHOTO) {
             if (resultCode == Activity.RESULT_OK) {
-                Glide.with(this).load(photoURI).into(foto);
+                Glide.with(this).load(photoURI).into(binding.foto);
             } else {
                 Toast.makeText(getContext(),
                         "Picture wasn't taken!", Toast.LENGTH_SHORT).show();

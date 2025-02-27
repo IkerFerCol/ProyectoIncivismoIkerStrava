@@ -55,12 +55,12 @@ public class NotificationsFragment extends Fragment {
         mapController.setZoom(14.5);
 
 
-        GeoPoint vall = new GeoPoint(39.8233, -0.232562);
-        mapController.setCenter(vall);
+        GeoPoint vila = new GeoPoint(39.92991796803797, -0.1061766132788344);
+        mapController.setCenter(vila);
 
         Marker startMarker = new Marker(binding.map);
-        startMarker.setPosition(vall);
-        startMarker.setTitle("la vall");
+        startMarker.setPosition(vila);
+        startMarker.setTitle("Vila-real");
         startMarker.setIcon(requireContext().getDrawable(R.drawable.ic_home_black_24dp));
         binding.map.getOverlays().add(startMarker);
 
