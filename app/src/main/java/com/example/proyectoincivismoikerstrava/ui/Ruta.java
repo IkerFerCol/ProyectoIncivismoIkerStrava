@@ -4,7 +4,7 @@ public class Ruta {
     Double latitud;
     Double longitud;
     String direccio;
-    String nombre;
+    String problema;
     String url;
 
     public Ruta(Double latitud, Double longitud, String direccio,
@@ -12,7 +12,7 @@ public class Ruta {
         this.latitud = latitud;
         this.longitud = longitud;
         this.direccio = direccio;
-        this.nombre = problema;
+        this.problema = problema;
         this.url = url;
     }
 
@@ -43,12 +43,12 @@ public class Ruta {
         this.direccio = direccio;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getProblema() {
+        return problema;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setProblema(String problema) {
+        this.problema = problema;
     }
 
     public String getUrl() {

@@ -78,7 +78,7 @@ public class HomeFragment extends Fragment {
             incidencia.setDireccio(binding.txtDireccio.getText().toString());
             double latitud = Double.parseDouble(binding.txtLatitud.getText().toString().trim());
             double longitud = Double.parseDouble(binding.txtLongitud.getText().toString().trim());
-            incidencia.setNombre(binding.txtDescripcio.getText().toString());
+            incidencia.setProblema(binding.txtDescripcio.getText().toString());
 
             incidencia.setLatitud(latitud);
             incidencia.setLongitud(longitud);

@@ -79,7 +79,7 @@ public class DashboardFragment extends Fragment {
         protected void onBindViewHolder(
         @NonNull IncidenciaViewholder holder, int position, @NonNull Ruta model
             ) {
-            holder.binding.txtDescripcio.setText(model.getNombre());
+            holder.binding.txtDescripcio.setText(model.getProblema());
             holder.binding.txtAdreca.setText(model.getDireccio());
         }
 

@@ -95,7 +95,7 @@ public class NotificationsFragment extends Fragment {
 
                     Marker marker = new Marker(binding.map);
                     marker.setPosition(location);
-                    marker.setTitle(ruta.getNombre());
+                    marker.setTitle(ruta.getProblema());
                     marker.setSnippet(ruta.getDireccio());
 
                     binding.map.getOverlays().add(marker);
